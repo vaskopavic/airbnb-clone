@@ -9,6 +9,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
@@ -16,6 +17,7 @@ import Button from "../Button";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -44,6 +46,11 @@ const RegisterModal = () => {
         setIsLoading(false);
       });
   };
+
+  const onToggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [registerModal, loginModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -92,15 +99,15 @@ const RegisterModal = () => {
         onClick={() => signIn("github")}
       />
       <div className="mt-4 font-light text-center text-neutral-500">
-        <div className="flex flex-row items-center justify-center gap-2">
-          <div>Already have an account?</div>
-          <div
-            onClick={registerModal.onClose}
+        <p>
+          Already have an account?{" "}
+          <span
+            onClick={onToggle}
             className="cursor-pointer text-neutral-800 hover:underline"
           >
             Log in
-          </div>
-        </div>
+          </span>
+        </p>
       </div>
     </div>
   );
